@@ -1,0 +1,32 @@
+/**
+ * 贡献者信息
+ *
+ * 如果你为 Sea Lantern 做出了贡献，欢迎在这里添加你的信息！
+ * 无论是代码、设计、建议、文档还是推广，你的名字都值得被记住。
+ */
+
+export interface Contributor {
+  name: string;        // 名字或昵称
+  role: string;        // 角色描述
+  avatar: string;      // 头像 URL
+  url?: string;        // 可选：个人主页链接
+}
+
+export const contributors: Contributor[] = [
+  {
+    name: "FPS_Z",
+    role: "创始人 / 主要开发者",
+    avatar: "https://mc-heads.net/avatar/FPS_Z/64",
+    url: "https://gitee.com/fps_z",
+  },
+  
+  // ============================================
+  // 在这里添加更多贡献者！
+  // ============================================
+  // {
+  //   name: "你的名字",
+  //   role: "贡献者",
+  //   avatar: "https://mc-heads.net/avatar/YourName/64",
+  //   url: "https://github.com/your-username",
+  // },
+];

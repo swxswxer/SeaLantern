@@ -1,0 +1,139 @@
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+
+const emit = defineEmits<{
+  ready: [];
+}>();
+
+const logoScale = ref(0);
+const textOpacity = ref(0);
+
+onMounted(() => {
+  // Logo 缩放动画
+  setTimeout(() => {
+    logoScale.value = 1;
+  }, 50);
+
+  // 文字淡入
+  setTimeout(() => {
+    textOpacity.value = 1;
+  }, 200);
+
+  // 启动完成，通知父组件（总共只显示600ms）
+  setTimeout(() => {
+    emit("ready");
+  }, 600);
+});
+</script>
+
+<template>
+  <div class="splash-screen">
+    <div class="splash-content">
+      <!-- Logo -->
+      <div class="splash-logo" :style="{ transform: `scale(${logoScale})` }">
+        <svg width="120" height="120" viewBox="0 0 28 28" fill="none">
+          <rect x="2" y="2" width="24" height="24" rx="6" fill="var(--sl-primary)" opacity="0.15"/>
+          <rect x="6" y="6" width="16" height="16" rx="3" fill="var(--sl-primary)" opacity="0.3"/>
+          <rect x="10" y="10" width="8" height="8" rx="2" fill="var(--sl-primary)"/>
+        </svg>
+      </div>
+
+      <!-- 标题 -->
+      <div class="splash-text" :style="{ opacity: textOpacity }">
+        <h1 class="splash-title">Sea Lantern</h1>
+        <p class="splash-subtitle">Minecraft 服务器管理工具</p>
+      </div>
+
+      <!-- 加载指示器 -->
+      <div class="splash-loader" :style="{ opacity: textOpacity }">
+        <div class="loader-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.splash-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.splash-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.splash-logo {
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.splash-text {
+  text-align: center;
+  transition: opacity 0.4s ease;
+}
+
+.splash-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--sl-text-primary);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.splash-subtitle {
+  font-size: 1rem;
+  color: var(--sl-text-secondary);
+  font-weight: 400;
+}
+
+.splash-loader {
+  transition: opacity 0.4s ease;
+  margin-top: 16px;
+}
+
+.loader-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.loader-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sl-primary);
+  animation: bounce 1.4s infinite ease-in-out;
+}
+
+.loader-dots span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.loader-dots span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+</style>

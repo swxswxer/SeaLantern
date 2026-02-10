@@ -211,13 +211,13 @@ function getStatusText(): string {
   <div class="console-view animate-fade-in-up">
     <div class="console-toolbar">
       <div class="toolbar-left">
-        <div v-if="serverOptions.length > 1" class="server-selector">
+        <div v-if="serverOptions.length > 0" class="server-selector">
           <SLSelect :options="serverOptions" :modelValue="serverId" placeholder="选择服务器" @update:modelValue="switchServer" />
         </div>
-        <div v-else-if="serverId" class="server-name-display">
-          {{ serverStore.servers.find((s) => s.id === serverId)?.name || "Server" }}
+        <div v-else class="server-name-display">
+          暂无服务器
         </div>
-        <div class="status-indicator" :class="getStatusClass()">
+        <div v-if="serverId" class="status-indicator" :class="getStatusClass()">
           <span class="status-dot"></span>
           <span class="status-label">{{ getStatusText() }}</span>
         </div>
@@ -288,21 +288,21 @@ function getStatusText(): string {
 .quick-groups { display: flex; gap: 4px; }
 .quick-btn { padding: 3px 10px; border-radius: var(--sl-radius-sm); font-size: 0.75rem; cursor: pointer; border: 1px solid var(--sl-border); color: var(--sl-text-secondary); background: var(--sl-bg-secondary); white-space: nowrap; transition: all var(--sl-transition-fast); }
 .quick-btn:hover { border-color: var(--sl-primary); color: var(--sl-primary); background: var(--sl-primary-bg); }
-.console-output { flex: 1; background: #1e1e2e; border-radius: var(--sl-radius-md); padding: var(--sl-space-md); overflow-y: auto; font-family: var(--sl-font-mono); font-size: 0.8125rem; line-height: 1.7; color: #cdd6f4; min-height: 0; user-select: text; -webkit-user-select: text; cursor: text; }
+.console-output { flex: 1; background: #f8fafc; border: 1px solid var(--sl-border-light); border-radius: var(--sl-radius-md); padding: var(--sl-space-md); overflow-y: auto; font-family: var(--sl-font-mono); font-size: 0.8125rem; line-height: 1.7; color: var(--sl-text-primary); min-height: 0; user-select: text; -webkit-user-select: text; cursor: text; }
 .log-line { white-space: pre-wrap; word-break: break-all; }
-.log-error { color: #f38ba8; }
-.log-warn { color: #fab387; }
-.log-command { color: #89b4fa; font-weight: 600; }
-.log-system { color: #a6e3a1; font-style: italic; }
-.log-empty { color: #585b70; font-style: italic; }
+.log-error { color: #dc2626; font-weight: 500; }
+.log-warn { color: #ea580c; font-weight: 500; }
+.log-command { color: #2563eb; font-weight: 600; }
+.log-system { color: #16a34a; font-style: italic; }
+.log-empty { color: var(--sl-text-tertiary); font-style: italic; }
 .scroll-btn { position: absolute; bottom: 70px; left: 50%; transform: translateX(-50%); padding: 6px 16px; background: var(--sl-primary); color: white; border-radius: var(--sl-radius-full); font-size: 0.75rem; cursor: pointer; box-shadow: var(--sl-shadow-md); z-index: 10; }
 .console-input-wrapper { position: relative; flex-shrink: 0; }
-.suggestions-popup { position: absolute; bottom: 100%; left: 0; right: 0; background: #313244; border: 1px solid #45475a; border-radius: var(--sl-radius-md); margin-bottom: 4px; max-height: 200px; overflow-y: auto; z-index: 20; }
-.suggestion-item { padding: 6px 14px; font-family: var(--sl-font-mono); font-size: 0.8125rem; color: #cdd6f4; cursor: pointer; }
-.suggestion-item:hover,.suggestion-item.active { background: #45475a; color: #89b4fa; }
-.suggestion-hint { padding: 4px 14px; font-size: 0.6875rem; color: #585b70; border-top: 1px solid #45475a; }
-.console-input-bar { display: flex; align-items: center; gap: var(--sl-space-sm); padding: var(--sl-space-sm) var(--sl-space-md); background: #1e1e2e; border-radius: var(--sl-radius-md); }
-.input-prefix { color: #89b4fa; font-family: var(--sl-font-mono); font-weight: 700; }
-.console-input { flex: 1; background: transparent; color: #cdd6f4; font-family: var(--sl-font-mono); font-size: 0.8125rem; padding: 6px 0; }
-.console-input::placeholder { color: #585b70; }
+.suggestions-popup { position: absolute; bottom: 100%; left: 0; right: 0; background: var(--sl-surface); border: 1px solid var(--sl-border); border-radius: var(--sl-radius-md); margin-bottom: 4px; max-height: 200px; overflow-y: auto; z-index: 20; box-shadow: var(--sl-shadow-md); }
+.suggestion-item { padding: 6px 14px; font-family: var(--sl-font-mono); font-size: 0.8125rem; color: var(--sl-text-primary); cursor: pointer; transition: background var(--sl-transition-fast); }
+.suggestion-item:hover,.suggestion-item.active { background: var(--sl-primary-bg); color: var(--sl-primary); }
+.suggestion-hint { padding: 4px 14px; font-size: 0.6875rem; color: var(--sl-text-tertiary); border-top: 1px solid var(--sl-border-light); }
+.console-input-bar { display: flex; align-items: center; gap: var(--sl-space-sm); padding: var(--sl-space-sm) var(--sl-space-md); background: var(--sl-surface); border: 1px solid var(--sl-border-light); border-radius: var(--sl-radius-md); }
+.input-prefix { color: var(--sl-primary); font-family: var(--sl-font-mono); font-weight: 700; }
+.console-input { flex: 1; background: transparent; color: var(--sl-text-primary); font-family: var(--sl-font-mono); font-size: 0.8125rem; padding: 6px 0; border: none; outline: none; }
+.console-input::placeholder { color: var(--sl-text-tertiary); }
 </style>

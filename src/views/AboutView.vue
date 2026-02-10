@@ -2,35 +2,25 @@
 import { ref } from "vue";
 import SLCard from "../components/common/SLCard.vue";
 import SLButton from "../components/common/SLButton.vue";
-
-interface Contributor {
-  name: string;
-  role: string;
-  avatar: string;
-  url?: string;
-}
+import { contributors as contributorsList } from "../data/contributors";
 
 const version = "0.1.0";
 const buildDate = "2026";
 
-const contributors = ref<Contributor[]>([
-  {
-    name: "FPS_Z",
-    role: "创始人 / 主要开发者",
-    avatar: "https://mc-heads.net/avatar/FPS_Z/64",
-    url: "",
-  },
-  // ============================================
-  // 在这里添加更多贡献者！
-  // 格式：{ name: "ID", role: "角色", avatar: "头像URL", url: "主页链接" }
-  //
-  // 每一个参与贡献的人都会被展示在这里
-  // 无论是代码、设计、建议还是文档，你的名字值得被记住
-  // ============================================
-]);
+const contributors = ref(contributorsList);
 
-function openUrl(url: string) {
-  if (url) window.open(url, "_blank");
+// 使用动态导入和错误处理，避免阻塞组件加载
+async function openUrl(url: string) {
+  if (!url) return;
+  try {
+    // 动态导入 opener 插件
+    const { open } = await import("@tauri-apps/plugin-opener");
+    await open(url);
+  } catch (e) {
+    console.error("Failed to open URL:", e);
+    // 降级方案：显示链接让用户手动复制
+    alert(`无法自动打开链接，请手动访问：\n${url}`);
+  }
 }
 </script>
 
@@ -39,11 +29,10 @@ function openUrl(url: string) {
     <!-- Hero Section -->
     <div class="hero-section">
       <div class="hero-logo">
-        <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
-          <rect x="4" y="4" width="64" height="64" rx="16" fill="var(--sl-primary)" opacity="0.1"/>
-          <rect x="12" y="12" width="48" height="48" rx="12" fill="var(--sl-primary)" opacity="0.2"/>
-          <rect x="22" y="22" width="28" height="28" rx="6" fill="var(--sl-primary)" opacity="0.4"/>
-          <rect x="28" y="28" width="16" height="16" rx="3" fill="var(--sl-primary)"/>
+        <svg width="72" height="72" viewBox="0 0 28 28" fill="none">
+          <rect x="2" y="2" width="24" height="24" rx="6" fill="var(--sl-primary)" opacity="0.15"/>
+          <rect x="6" y="6" width="16" height="16" rx="3" fill="var(--sl-primary)" opacity="0.3"/>
+          <rect x="10" y="10" width="8" height="8" rx="2" fill="var(--sl-primary)"/>
         </svg>
       </div>
       <h1 class="hero-title">Sea Lantern</h1>
@@ -85,8 +74,6 @@ function openUrl(url: string) {
           v-for="c in contributors"
           :key="c.name"
           class="contributor-card glass-card"
-          :class="{ clickable: !!c.url }"
-          @click="c.url && openUrl(c.url)"
         >
           <img :src="c.avatar" :alt="c.name" class="contributor-avatar" />
           <div class="contributor-info">
@@ -187,14 +174,11 @@ function openUrl(url: string) {
 
     <!-- Links -->
     <div class="links-section">
-      <SLButton variant="primary" size="lg" @click="openUrl('https://gitee.com/')">
+      <SLButton variant="primary" size="lg" @click="openUrl('https://gitee.com/fps_z/SeaLantern')">
         Gitee 仓库
       </SLButton>
-      <SLButton variant="secondary" size="lg" @click="openUrl('https://space.bilibili.com/409620362?spm_id_from=333.1007.0.0')">
+      <SLButton variant="secondary" size="lg" @click="openUrl('https://space.bilibili.com/409620362')">
         B站主页
-      </SLButton>
-      <SLButton variant="ghost" size="lg" @click="openUrl('')">
-        加入QQ群
       </SLButton>
     </div>
 
